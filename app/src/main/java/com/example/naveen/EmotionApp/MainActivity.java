@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         //tested sql
         //TestFunctionality.testSql(getApplicationContext());
 
-        TestFunctionality.testGraph((GraphView)findViewById(R.id.graph), currentActivity);
+        //TestFunctionality.testGraph((GraphView)findViewById(R.id.graph), currentActivity);
 
     }
 
