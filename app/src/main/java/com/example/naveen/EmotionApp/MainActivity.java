@@ -3,6 +3,7 @@ package com.example.naveen.EmotionApp;
 import android.app.Activity;
 import android.hardware.Camera;
 //import android.graphics.Camera;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,9 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -65,14 +63,11 @@ public class MainActivity extends AppCompatActivity {
         //take photo and save it assigning unique name to image file.
         String capturedImageFilePath = MyCamera.takePictureAndSave(this);
 
-        //to allow galler app to visible images captured using our app.
+        //to allow gallery app to visible images captured using our app.
         MyCamera.galleryAddPic(this, capturedImageFilePath);
 
-
+        new ImageProcessor().processEmotions(capturedImageFilePath);
     }
-
-    
-
 
 }
 

@@ -40,7 +40,7 @@ public class MyCamera {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(callingActivity.getApplicationContext(),
-                        "com.example.naveen.firstdemo",
+                        "com.example.naveen.EmotionApp",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 

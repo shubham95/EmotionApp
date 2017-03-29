@@ -20,20 +20,23 @@
         android:layout_height="match_parent"
         android:id="@+id/cameraPreview">
 
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/captureButton"-->
-            <!--android:onClick="capturePhotoClick"/>-->
         <com.jjoe64.graphview.GraphView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="420dp"
             android:id="@+id/graph"
             />
 
     </FrameLayout>
 
-
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="capturePhotoClick"
+        android:text="@string/captureButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
