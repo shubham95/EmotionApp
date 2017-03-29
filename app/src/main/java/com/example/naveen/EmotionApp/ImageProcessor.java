@@ -33,8 +33,8 @@ public class ImageProcessor {
 
     }
 
-    public void processEmotions(String ImagePath) {
-
+    public HttpEntity processEmotions(String ImagePath) {
+        HttpEntity result = null;
         try
         {
             URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize");
@@ -72,6 +72,8 @@ public class ImageProcessor {
             HttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
 
+            result = entity;
+
             if (entity != null)
             {
                 System.out.println(EntityUtils.toString(entity));
@@ -82,6 +84,7 @@ public class ImageProcessor {
             System.out.println(e.getMessage());
         }
 
+        return  result;
     }
 
 }
