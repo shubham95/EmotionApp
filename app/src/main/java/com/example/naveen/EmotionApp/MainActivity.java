@@ -61,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
     public void capturePhotoClick(View view) {
 
         //take photo and save it assigning unique name to image file.
-        String capturedImageFilePath = MyCamera.takePictureAndSave(this);
+        //String capturedImageFilePath = MyCamera.takePictureAndSave(this);
 
         //to allow gallery app to visible images captured using our app.
-        MyCamera.galleryAddPic(this, capturedImageFilePath);
+        //MyCamera.galleryAddPic(this, capturedImageFilePath);
 
+        String capturedImageFilePath = ;
         new ImageProcessor().processEmotions(capturedImageFilePath);
     }
 
