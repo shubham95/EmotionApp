@@ -1,5 +1,7 @@
 package com.example.naveen.EmotionApp;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,6 +78,7 @@ public class ImageProcessor {
 
             if (entity != null)
             {
+
                 System.out.println(EntityUtils.toString(entity));
             }
         }
