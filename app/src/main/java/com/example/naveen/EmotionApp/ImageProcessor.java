@@ -80,6 +80,7 @@ public class ImageProcessor {
             Log.d(TAG, "processEmotions: " + EntityUtils.toString(entity));
             if (entity != null)
             {
+
                 System.out.println(EntityUtils.toString(entity));
             }
         }

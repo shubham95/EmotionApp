@@ -18,13 +18,13 @@ import java.util.Date;
  */
 
 public class MyCamera {
-
+    static final  int REQUEST_TAKE_PHOTO = 1;
     /**
      * This method triggers others installed camera-apps  in the phone to take picture for our app and
      * @return filepath where successfully taken picture is saved. else returns null( null --> error)
      */
     public static String takePictureAndSave(Activity callingActivity) {
-        final int REQUEST_TAKE_PHOTO = 1;
+
         String savedImageFilePath = null;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -49,6 +49,8 @@ public class MyCamera {
 
                 //get saved image file absolute path
                 savedImageFilePath = photoFile.getAbsolutePath();
+
+
             }
         }
 

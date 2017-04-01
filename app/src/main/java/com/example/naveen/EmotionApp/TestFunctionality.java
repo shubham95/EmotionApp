@@ -37,7 +37,7 @@ public class TestFunctionality {
 //        String day = GraphHelper.getDay(new SimpleDateFormat("yyyy/MM/dd").format(new Date()).toString());
 //        double dayD = Double.parseDouble(String.valueOf("1"));
 //        Log.d("Tag ","Day is " + dayD);
-        currentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        //currentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Calendar calendar = Calendar.getInstance();
         calendar.set(2017,1,1);
 

@@ -1,26 +1,23 @@
 package com.example.naveen.EmotionApp;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-//import android.graphics.Camera;
-import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.SurfaceView;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Toast;
-
-import com.jjoe64.graphview.GraphView;
-
 import ch.boye.httpclientandroidlib.HttpEntity;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(currentActivity,
                         new String[]{Manifest.permission.CAMERA},
                         MY_PERMISSIONS_REQUEST_ACCESS_CAMERA);
-
-
         }else{
             isCameraGranted = true;
         }
@@ -127,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.CUPCAKE)
     @Override
     protected void onActivityResult(int reqCode, int respCode, Intent intent) {
         new AsyncTask<String, Void, HttpEntity>() {
