@@ -2,6 +2,7 @@ package com.example.naveen.EmotionApp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 //import android.graphics.Camera;
@@ -24,12 +25,12 @@ import ch.boye.httpclientandroidlib.HttpEntity;
 
 public class MainActivity extends AppCompatActivity {
     private Activity currentActivity;
-    private Camera camera ;
+    private Camera camera;
     private SurfaceView cameraPreviewSurface;
-
-
+    private String capturedImageFilePath;
     final int MY_PERMISSIONS_REQUEST_ACCESS_CAMERA = 4;
     private boolean isCameraGranted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,32 +88,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(isCameraGranted){
-            String capturedImageFilePath = MyCamera.takePictureAndSave(this);
+            capturedImageFilePath = MyCamera.takePictureAndSave(this);
 
             //to allow gallery app to visible images captured using our app.
             MyCamera.galleryAddPic(this, capturedImageFilePath);
-        }else{
+
+        }else {
             Toast.makeText(currentActivity, "Access to camera is not granted", Toast.LENGTH_SHORT).show();
         }
-
-//        new AsyncTask<String, Void, HttpEntity>() {
-//            @Override
-//            protected HttpEntity doInBackground(String... strings) {
-//                HttpEntity result = new ImageProcessor().processEmotions(strings[0]);
-//                return result;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(HttpEntity entity){
-//
-//            }
-//        }.execute(capturedImageFilePath);
 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_ACCESS_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
@@ -137,6 +125,23 @@ public class MainActivity extends AppCompatActivity {
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+
+    @Override
+    protected void onActivityResult(int reqCode, int respCode, Intent intent) {
+        new AsyncTask<String, Void, HttpEntity>() {
+
+            @Override
+            protected HttpEntity doInBackground(String... strings) {
+                HttpEntity result = new ImageProcessor().processEmotions(strings[0]);
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(HttpEntity entity){
+
+            }
+        }.execute(capturedImageFilePath);
     }
 
 }

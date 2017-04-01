@@ -1,5 +1,7 @@
 package com.example.naveen.EmotionApp;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,6 +17,8 @@ import ch.boye.httpclientandroidlib.entity.ByteArrayEntity;
 import ch.boye.httpclientandroidlib.entity.StringEntity;
 import ch.boye.httpclientandroidlib.impl.client.HttpClients;
 import ch.boye.httpclientandroidlib.util.EntityUtils;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by abhishek on 3/28/2017.
@@ -73,7 +77,7 @@ public class ImageProcessor {
             HttpEntity entity = response.getEntity();
 
             result = entity;
-
+            Log.d(TAG, "processEmotions: " + EntityUtils.toString(entity));
             if (entity != null)
             {
                 System.out.println(EntityUtils.toString(entity));
