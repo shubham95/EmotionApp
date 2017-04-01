@@ -2,6 +2,7 @@ package com.example.naveen.EmotionApp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -97,10 +98,9 @@ public class FirstActivity extends AppCompatActivity {
             }
 
             if(isCameraGranted){
-                String capturedImageFilePath = MyCamera.takePictureAndSave(currentActivity);
+                Intent intent = new Intent(currentActivity, WriteNotesActivity.class);
+                currentActivity.startActivity(intent);
 
-                //to allow gallery app to visible images captured using our app.
-                MyCamera.galleryAddPic(currentActivity, capturedImageFilePath);
             }else{
                 Toast.makeText(currentActivity, "Access to camera is not granted", Toast.LENGTH_SHORT).show();
             }

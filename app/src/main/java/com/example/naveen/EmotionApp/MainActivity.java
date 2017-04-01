@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(isCameraGranted){
-            String capturedImageFilePath = MyCamera.takePictureAndSave(this);
+            String capturedImageFilePath = new MyCamera().takePictureAndSave(this);
 
             //to allow gallery app to visible images captured using our app.
             MyCamera.galleryAddPic(this, capturedImageFilePath);
