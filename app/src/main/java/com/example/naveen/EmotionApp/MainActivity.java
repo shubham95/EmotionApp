@@ -1,35 +1,33 @@
 package com.example.naveen.EmotionApp;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-//import android.graphics.Camera;
-import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.SurfaceView;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Toast;
-
-import com.jjoe64.graphview.GraphView;
-
 import ch.boye.httpclientandroidlib.HttpEntity;
 
 public class MainActivity extends AppCompatActivity {
     private Activity currentActivity;
-    private Camera camera ;
+    private Camera camera;
     private SurfaceView cameraPreviewSurface;
-
-
+    private String capturedImageFilePath;
     final int MY_PERMISSIONS_REQUEST_ACCESS_CAMERA = 4;
     private boolean isCameraGranted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,38 +78,24 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(currentActivity,
                         new String[]{Manifest.permission.CAMERA},
                         MY_PERMISSIONS_REQUEST_ACCESS_CAMERA);
-
-
         }else{
             isCameraGranted = true;
         }
 
         if(isCameraGranted){
-            String capturedImageFilePath = new MyCamera().takePictureAndSave(this);
+            capturedImageFilePath = MyCamera.takePictureAndSave(this);
 
             //to allow gallery app to visible images captured using our app.
             MyCamera.galleryAddPic(this, capturedImageFilePath);
-        }else{
+
+        }else {
             Toast.makeText(currentActivity, "Access to camera is not granted", Toast.LENGTH_SHORT).show();
         }
-
-//        new AsyncTask<String, Void, HttpEntity>() {
-//            @Override
-//            protected HttpEntity doInBackground(String... strings) {
-//                HttpEntity result = new ImageProcessor().processEmotions(strings[0]);
-//                return result;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(HttpEntity entity){
-//
-//            }
-//        }.execute(capturedImageFilePath);
 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_ACCESS_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
@@ -136,6 +120,24 @@ public class MainActivity extends AppCompatActivity {
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.CUPCAKE)
+    @Override
+    protected void onActivityResult(int reqCode, int respCode, Intent intent) {
+        new AsyncTask<String, Void, HttpEntity>() {
+
+            @Override
+            protected HttpEntity doInBackground(String... strings) {
+                HttpEntity result = new ImageProcessor().processEmotions(strings[0]);
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(HttpEntity entity){
+
+            }
+        }.execute(capturedImageFilePath);
     }
 
 }

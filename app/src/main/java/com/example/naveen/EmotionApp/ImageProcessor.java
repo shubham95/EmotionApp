@@ -18,6 +18,8 @@ import ch.boye.httpclientandroidlib.entity.StringEntity;
 import ch.boye.httpclientandroidlib.impl.client.HttpClients;
 import ch.boye.httpclientandroidlib.util.EntityUtils;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by abhishek on 3/28/2017.
  */
@@ -75,7 +77,7 @@ public class ImageProcessor {
             HttpEntity entity = response.getEntity();
 
             result = entity;
-
+            Log.d(TAG, "processEmotions: " + EntityUtils.toString(entity));
             if (entity != null)
             {
 
