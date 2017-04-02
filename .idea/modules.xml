@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/EmotionApp.iml" filepath="$PROJECT_DIR$/EmotionApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/httpclientandroidlib-1.2.1/httpclientandroidlib-1.2.1.iml" filepath="$PROJECT_DIR$/httpclientandroidlib-1.2.1/httpclientandroidlib-1.2.1.iml" />
     </modules>
   </component>
 </project>
