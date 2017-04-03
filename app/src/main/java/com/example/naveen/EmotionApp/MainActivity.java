@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
-import ch.boye.httpclientandroidlib.HttpEntity;
+import org.apache.http.HttpEntity;
 
 public class MainActivity extends AppCompatActivity {
     private Activity currentActivity;

@@ -26,6 +26,27 @@ public class Emotion {
     String surprise;
     String date;
 
+    public Emotion() {
+        this.anger = null;
+        this.contempt = null;
+        this.disgust = null;
+        this.fear = null;
+        this.happiness = null;
+        this.neutral = null;
+        this.sadness = null;
+        this.surprise = null;
+    }
+
+    public Emotion(String anger, String contempt, String disgust, String fear, String happiness, String neutral, String sadness, String surprise) {
+        this.anger = anger;
+        this.contempt = contempt;
+        this.disgust = disgust;
+        this.fear = fear;
+        this.happiness = happiness;
+        this.neutral = neutral;
+        this.sadness = sadness;
+        this.surprise = surprise;
+    }
 
     public boolean save(Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);

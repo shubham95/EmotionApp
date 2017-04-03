@@ -2,22 +2,26 @@ package com.example.naveen.EmotionApp;
 
 import android.util.Log;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 
-import ch.boye.httpclientandroidlib.HttpEntity;
-import ch.boye.httpclientandroidlib.HttpResponse;
-import ch.boye.httpclientandroidlib.client.HttpClient;
-import ch.boye.httpclientandroidlib.client.methods.HttpPost;
-import ch.boye.httpclientandroidlib.client.utils.URIBuilder;
-import ch.boye.httpclientandroidlib.entity.ByteArrayEntity;
-import ch.boye.httpclientandroidlib.entity.StringEntity;
-import ch.boye.httpclientandroidlib.impl.client.HttpClients;
-import ch.boye.httpclientandroidlib.util.EntityUtils;
-
+import static android.R.attr.data;
 import static android.content.ContentValues.TAG;
 
 /**
@@ -26,6 +30,7 @@ import static android.content.ContentValues.TAG;
 
 public class ImageProcessor {
 
+    Emotion emotion;
     HttpClient httpclient = HttpClients.createDefault();
 
     public void processImage() {
@@ -77,11 +82,11 @@ public class ImageProcessor {
             HttpEntity entity = response.getEntity();
 
             result = entity;
-            Log.d(TAG, "processEmotions: " + EntityUtils.toString(entity));
+            //Log.d(TAG, "processEmotions: " + EntityUtils.toString(entity));
             if (entity != null)
             {
-
-                System.out.println(EntityUtils.toString(entity));
+                //System.out.println(EntityUtils.toString(entity));\
+                parseEmotionJSON(EntityUtils.toString(entity));
             }
         }
         catch (Exception e)
@@ -92,4 +97,51 @@ public class ImageProcessor {
         return  result;
     }
 
+    public void parseEmotionJSON(String jsonStr) {
+        Log.e(TAG, "Response from url: " + jsonStr);
+
+        try {
+            Object json = new JSONTokener(jsonStr).nextValue();
+            if (json instanceof JSONObject) {
+                //you have an object
+                JSONObject jsonReader = new JSONObject(jsonStr);
+                JSONObject jsonError = jsonReader.getJSONObject("error");
+                System.out.println(jsonError.getString("code"));
+                System.out.println(jsonError.getString("message"));
+            }
+            else if (json instanceof JSONArray){
+                //you have an array
+                JSONArray jsonReader = new JSONArray(jsonStr);
+                if (jsonReader != null && jsonReader.length() > 0) {
+                    JSONObject faceJson = jsonReader.getJSONObject(0);
+                    JSONObject scores = faceJson.getJSONObject("scores");
+
+                    System.out.println(scores.getString("anger"));
+                    System.out.println(scores.getString("contempt"));
+                    System.out.println(scores.getString("disgust"));
+                    System.out.println(scores.getString("fear"));
+                    System.out.println(scores.getString("happiness"));
+                    System.out.println(scores.getString("neutral"));
+                    System.out.println(scores.getString("sadness"));
+                    System.out.println(scores.getString("surprise"));
+
+                    emotion = new Emotion(scores.getString("anger"),
+                                        scores.getString("contempt"),
+                                        scores.getString("disgust"),
+                                        scores.getString("fear"),
+                                        scores.getString("happiness"),
+                                        scores.getString("neutral"),
+                                        scores.getString("sadness"),
+                                        scores.getString("surprise"));
+                }
+                else {
+                    System.out.println("No face recognized");
+                }
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

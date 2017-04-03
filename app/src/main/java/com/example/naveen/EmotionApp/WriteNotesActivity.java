@@ -51,6 +51,7 @@ public class WriteNotesActivity extends AppCompatActivity {
             if(strings[0].isEmpty())
                 return null;
 
+            //new ImageProcessor().processEmotions(strings[0]);
             Bitmap bitmap = BitmapFactory.decodeFile(strings[0]);
             return bitmap;
         }
