@@ -1,11 +1,16 @@
 package com.example.naveen.EmotionApp;
 
 import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,24 +21,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
-import static android.content.ContentValues.TAG;
+import junit.framework.Test;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class WriteNotesActivity extends AppCompatActivity {
     String capturedImageFilePath = "";
     NestedScrollView nestedScrollView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_write_notes);
         capturedImageFilePath  = MyCamera.takePictureAndSave(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //System.out.println(capturedImageFilePath);
-        if(requestCode == MyCamera.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK)
+        if(requestCode == MyCamera.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             new ImageLoader(null, this).execute(capturedImageFilePath);
+            new DoNetworkTask().execute(capturedImageFilePath);
+        }
         else{
             finish();
         }
@@ -69,7 +79,6 @@ public class WriteNotesActivity extends AppCompatActivity {
         linearLayout.addView(textView2);
 
         nestedScrollView = (NestedScrollView) this.findViewById(R.id.scroll);
-        //nestedScrollView.fullScroll(nestedScrollView.FOCUS_DOWN);
         try {
             nestedScrollView.post(new Runnable() {
                 @Override
@@ -81,7 +90,7 @@ public class WriteNotesActivity extends AppCompatActivity {
             Log.d("Excep", e.getMessage());
         }
 
-        Log.d(TAG, "onClickButton: After Click");
+        Log.d("TAG", "onClickButton: After Click");
     }
 
     class ImageLoader extends AsyncTask<String, Void, Bitmap> {
@@ -98,8 +107,7 @@ public class WriteNotesActivity extends AppCompatActivity {
         protected Bitmap doInBackground(String... strings) {
             if(strings[0].isEmpty())
                 return null;
-
-            //new ImageProcessor().processEmotions(strings[0]);
+            //do image decoding task
             Bitmap bitmap = BitmapFactory.decodeFile(strings[0]);
             return bitmap;
         }
@@ -111,9 +119,33 @@ public class WriteNotesActivity extends AppCompatActivity {
                 callingActivity.setContentView(R.layout.activity_write_notes);
                 imageView = (ImageView)callingActivity.findViewById(R.id.imageView);
                 imageView.setImageBitmap(bitmap);
+
+
             }else {
                 //callingActivity.finish();
             }
+        }
+    }
+
+    class DoNetworkTask extends AsyncTask<String, Void, Emotion>{
+
+        @Override
+        protected Emotion doInBackground(String... strings) {
+            if(strings[0].isEmpty())
+                return null;
+            //do network api task here
+
+
+
+            //initialize Emotion
+            Emotion emotion = new Emotion();
+            emotion.fileName = capturedImageFilePath;
+            emotion.date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()).toString();
+            return emotion;
+        }
+
+        protected void onPostExecute(Emotion emotion) {
+            emotion.save(getApplicationContext());
         }
     }
 }

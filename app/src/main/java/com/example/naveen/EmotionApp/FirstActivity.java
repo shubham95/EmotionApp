@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,10 +24,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
+
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class FirstActivity extends AppCompatActivity {
 
@@ -104,19 +109,6 @@ public class FirstActivity extends AppCompatActivity {
                 Toast.makeText(currentActivity, "Access to camera is not granted", Toast.LENGTH_SHORT).show();
             }
 
-//        new AsyncTask<String, Void, HttpEntity>() {
-//            @Override
-//            protected HttpEntity doInBackground(String... strings) {
-//                HttpEntity result = new ImageProcessor().processEmotions(strings[0]);
-//                return result;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(HttpEntity entity){
-//
-//            }
-//        }.execute(capturedImageFilePath);
-            ;
         }
     }
 
@@ -169,11 +161,6 @@ public class FirstActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onToastClick(View view){
-        Button button = (Button)view;
-        Toast.makeText(getApplicationContext(),button.getText(),Toast.LENGTH_SHORT).show();
     }
 
 
@@ -251,9 +238,39 @@ public class FirstActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_list_emotions, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
+        }
+
+        @Override
+        public void onStart(){
+            super.onStart();
+            LinearLayout listEmotionLayout = (LinearLayout)getActivity().findViewById(R.id.listEmotionsFragment);
+
+            //To remove previously added textview for date and pic file name
+                if(listEmotionLayout.getChildCount() > 0){
+                    listEmotionLayout.removeAllViews();
+                }
+
+                String[] columns = new String[]{Emotion.TableInof.COL_DATE, Emotion.TableInof.COL_FILE};
+                List<Emotion> list = Emotion.listBySelectionCriteria(getContext()
+                ,false
+                ,columns
+                ,null
+                ,null
+                ,null
+                ,null
+                , Emotion.TableInof.COL_DATE + " DESC"
+                ,"3"
+            );
+
+            for(int i=0; i < list.size();i++) {
+                Log.d("Size", list.get(i).date + "  " + list.get(i).fileName);
+                TextView textView = new TextView(getActivity());
+                textView.setText(list.get(i).date + "  " + list.get(i).fileName.substring(list.get(i).fileName.lastIndexOf("/")+1));
+
+                listEmotionLayout.addView(textView);
+
+            }
         }
 
 

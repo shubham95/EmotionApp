@@ -124,14 +124,14 @@ public class ImageProcessor {
                     System.out.println(scores.getString("sadness"));
                     System.out.println(scores.getString("surprise"));
 
-                    emotion = new Emotion(scores.getString("anger"),
-                                        scores.getString("contempt"),
-                                        scores.getString("disgust"),
-                                        scores.getString("fear"),
-                                        scores.getString("happiness"),
-                                        scores.getString("neutral"),
-                                        scores.getString("sadness"),
-                                        scores.getString("surprise"));
+//                    emotion = new Emotion(scores.getString("anger"),
+//                                        scores.getString("contempt"),
+//                                        scores.getString("disgust"),
+//                                        scores.getString("fear"),
+//                                        scores.getString("happiness"),
+//                                        scores.getString("neutral"),
+//                                        scores.getString("sadness"),
+//                                        scores.getString("surprise"));
                 }
                 else {
                     System.out.println("No face recognized");

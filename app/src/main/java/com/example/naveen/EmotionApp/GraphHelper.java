@@ -24,7 +24,7 @@ public class GraphHelper {
         DataPoint[] anger = new DataPoint[list.size()];
 
         for (int i = 0; i < list.size(); i++) {
-            double Y = Double.parseDouble(list.get(i).anger);
+            double Y = list.get(i).anger;
             int X = Integer.parseInt(getDay(list.get(i).date));
             anger[i] = new DataPoint( X, Y );
         }

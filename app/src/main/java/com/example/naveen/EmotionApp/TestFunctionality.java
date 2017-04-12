@@ -19,9 +19,9 @@ public class TestFunctionality {
 
     public static  void testSql(Context context){
         Emotion emotion = new Emotion();
-        emotion.anger = "1.0";
-        emotion.contempt = "2.0";
-        emotion.disgust = "4.3";
+        emotion.anger = 1.0f;
+        emotion.contempt = 2.0f;
+        emotion.disgust = 4.3f;
 
         emotion.save(context);
         List<Emotion> list = Emotion.listAll(context);
@@ -42,7 +42,7 @@ public class TestFunctionality {
 
         for (int i = 0; i < 30; i++) {
             Emotion e = new Emotion();
-            e.anger = String.valueOf(i%10);
+            e.anger = i%10;
             Date d = calendar.getTime();
             calendar.add(Calendar.DATE, 1);
             e.date = new SimpleDateFormat("yyyy/MM/dd").format(d).toString();

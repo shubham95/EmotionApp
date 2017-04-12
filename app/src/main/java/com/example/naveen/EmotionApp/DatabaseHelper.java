@@ -9,19 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private final static int DB_VERSION = 2;
+    private final static int DB_VERSION = 4;
     private final static String DB_NAME = "emotionDB";
 
     private final static String CREATE_TABLE = "CREATE TABLE  emotion " +
-            "(anger nvarchar(20), " +
-            "contempt nvarchar(20), " +
-            "disgust nvarchar(20), " +
-            "fear nvarchar(20), " +
-            "happiness nvarchar(20), " +
-            "neutral nvarchar(20), " +
-            "sadness nvarchar(20), " +
-            "surprise nvarchar(20), " +
-            "date nvarchar(20))" ;
+            "(anger real, " +
+            "contempt real, " +
+            "disgust real, " +
+            "fear real, " +
+            "happiness real, " +
+            "neutral real, " +
+            "sadness real, " +
+            "surprise real, " +
+            "date nvarchar(20), " +
+            "fileName nvarchar(200))";
 
 
     public DatabaseHelper(Context context){
