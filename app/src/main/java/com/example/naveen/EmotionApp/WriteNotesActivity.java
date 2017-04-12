@@ -1,30 +1,20 @@
 package com.example.naveen.EmotionApp;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
-import java.io.File;
 
 import static android.content.ContentValues.TAG;
 
@@ -80,12 +70,17 @@ public class WriteNotesActivity extends AppCompatActivity {
 
         nestedScrollView = (NestedScrollView) this.findViewById(R.id.scroll);
         //nestedScrollView.fullScroll(nestedScrollView.FOCUS_DOWN);
-        nestedScrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                nestedScrollView.fullScroll(nestedScrollView.FOCUS_DOWN);
-            }
-        });
+        try {
+            nestedScrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    nestedScrollView.fullScroll(nestedScrollView.FOCUS_DOWN);
+                }
+            });
+        }catch (Exception e){
+            Log.d("Excep", e.getMessage());
+        }
+
         Log.d(TAG, "onClickButton: After Click");
     }
 

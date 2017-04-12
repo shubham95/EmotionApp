@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 
-import static android.R.attr.data;
 import static android.content.ContentValues.TAG;
 
 /**

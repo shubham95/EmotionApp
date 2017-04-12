@@ -2,7 +2,6 @@ package com.example.naveen.EmotionApp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 
 import com.jjoe64.graphview.GraphView;
 

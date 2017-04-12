@@ -7,14 +7,19 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.naveen.EmotionApp.WriteNotesActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <LinearLayout  android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!--<android.support.design.widget.CollapsingToolbarLayout-->
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:layout_gravity="top">
+
+            <!--<android.support.design.widget.CollapsingToolbarLayout-->
             <!--android:id="@+id/toolbar_layout"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="match_parent"-->
@@ -23,41 +28,35 @@
             <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
 
             <!--<android.support.v7.widget.Toolbar-->
-                <!--android:id="@+id/toolbar"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="?attr/actionBarSize"-->
-                <!--app:layout_collapseMode="pin"-->
-                <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--app:layout_collapseMode="pin"-->
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
 
-        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
-    </android.support.design.widget.AppBarLayout>
+            <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+        </android.support.design.widget.AppBarLayout>
+        <include layout="@layout/content_write_notes"  />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:paddingTop="1dp"
+            android:background="@color/colorPrimary">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:hint="Type a message"
+                android:layout_weight="1"
+                android:background="@drawable/bubble2"/>
+            <ImageButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/send"
+                android:scaleType="centerCrop"
+                android:onClick="onClickButton"/>
+        </LinearLayout>
 
-    <include layout="@layout/content_write_notes"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom"
-        android:padding="2dp"
-        android:background="@color/colorPrimary">
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@drawable/bubble2"
-            android:hint="Type a message" />
-
-        <ImageButton
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:onClick="onClickButton"
-            android:scaleType="centerCrop"
-            android:src="@drawable/send" />
     </LinearLayout>
-
 </android.support.design.widget.CoordinatorLayout>

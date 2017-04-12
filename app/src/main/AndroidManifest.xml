@@ -12,7 +12,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.naveen.EmotionApp"
@@ -24,7 +25,7 @@
         </provider>
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.naveen.EmotionApp.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -37,7 +38,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".FirstActivity"
+            android:name="com.example.naveen.EmotionApp.FirstActivity"
             android:label="@string/title_activity_first"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -47,9 +48,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WriteNotesActivity"
+            android:name="com.example.naveen.EmotionApp.WriteNotesActivity"
             android:label="@string/title_activity_write_notes"
-            android:parentActivityName=".FirstActivity"
+            android:parentActivityName="com.example.naveen.EmotionApp.FirstActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
