@@ -27,6 +27,20 @@ public class Emotion {
     String date;
     String fileName;
 
+    public Emotion() {}
+
+    public Emotion(float anger, float contempt, float disgust, float fear, float happiness, float neutral, float sadness, float surprise, String date, String fileName) {
+        this.anger = anger;
+        this.contempt = contempt;
+        this.disgust = disgust;
+        this.fear = fear;
+        this.happiness = happiness;
+        this.neutral = neutral;
+        this.sadness = sadness;
+        this.surprise = surprise;
+        this.date = date;
+        this.fileName = fileName;
+    }
 
     public boolean save(Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);

@@ -2,34 +2,68 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="450dp"
+    android:layout_weight="1"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.naveen.EmotionApp.WriteNotesActivity"
-    tools:showIn="@layout/activity_write_notes"
-    android:layout_weight="1">
+    tools:showIn="@layout/activity_write_notes">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="450dp"
-            android:id="@+id/imageView"
-            android:scaleType="centerCrop"
-            android:cropToPadding="true"
+            android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
+            android:cropToPadding="true"
             android:padding="5dp"
-            android:layout_alignParentTop="true"/>
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:id="@+id/progressBars"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/progressBar2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/progressBar3"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/interactBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/progressBars"
             android:orientation="vertical"
-            android:layout_below="@id/imageView"
             android:padding="5dp">
+
         </LinearLayout>
 
     </RelativeLayout>
+
 
 </android.support.v4.widget.NestedScrollView>
