@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -31,9 +32,11 @@ import java.util.List;
 public class WriteNotesActivity extends AppCompatActivity {
     String capturedImageFilePath = "";
     NestedScrollView nestedScrollView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_write_notes);
         capturedImageFilePath  = MyCamera.takePictureAndSave(this);
     }
 
@@ -42,7 +45,7 @@ public class WriteNotesActivity extends AppCompatActivity {
         //System.out.println(capturedImageFilePath);
         if(requestCode == MyCamera.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             new ImageLoader(null, this).execute(capturedImageFilePath);
-            new DoNetworkTask().execute(capturedImageFilePath);
+            new DoNetworkTask(this).execute(capturedImageFilePath);
         }
         else{
             finish();
@@ -65,20 +68,20 @@ public class WriteNotesActivity extends AppCompatActivity {
         //textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
         linearLayout.addView(textView1);
 
-        // Add textview 2
-        TextView textView2 = new TextView(this);
-        LayoutParams layoutParamsRight = new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT);
-        layoutParamsRight.gravity = Gravity.RIGHT;
-        //layoutParams.setMargins(10, 10, 10, 10); // (left, top, right, bottom)
-        textView2.setLayoutParams(layoutParamsRight);
-        textView2.setText("programmatically created TextView2");
-        textView2.setBackgroundResource(R.drawable.bubble2);
-        //textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        //textView2.setBackgroundColor(0xffffdbdb); // hex color 0xAARRGGBB
-        linearLayout.addView(textView2);
+//        // Add textview 2
+//        TextView textView2 = new TextView(this);
+//        LayoutParams layoutParamsRight = new LayoutParams(LayoutParams.WRAP_CONTENT,
+//                LayoutParams.WRAP_CONTENT);
+//        layoutParamsRight.gravity = Gravity.RIGHT;
+//        //layoutParams.setMargins(10, 10, 10, 10); // (left, top, right, bottom)
+//        textView2.setLayoutParams(layoutParamsRight);
+//        textView2.setText("programmatically created TextView2");
+//        textView2.setBackgroundResource(R.drawable.bubble2);
+//        //textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+//        //textView2.setBackgroundColor(0xffffdbdb); // hex color 0xAARRGGBB
+//        linearLayout.addView(textView2);
 
-        nestedScrollView = (NestedScrollView) this.findViewById(R.id.scroll);
+        nestedScrollView = (NestedScrollView) findViewById(R.id.scroll);
         try {
             nestedScrollView.post(new Runnable() {
                 @Override
@@ -105,47 +108,75 @@ public class WriteNotesActivity extends AppCompatActivity {
 
         @Override
         protected Bitmap doInBackground(String... strings) {
+            System.out.println("in first async task background");
             if(strings[0].isEmpty())
                 return null;
             //do image decoding task
             Bitmap bitmap = BitmapFactory.decodeFile(strings[0]);
+            System.out.println("exiting first async task background");
             return bitmap;
         }
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-
+            System.out.println("in first async task post");
             if(bitmap != null){
-                callingActivity.setContentView(R.layout.activity_write_notes);
+                //callingActivity.setContentView(R.layout.activity_write_notes);
                 imageView = (ImageView)callingActivity.findViewById(R.id.imageView);
                 imageView.setImageBitmap(bitmap);
-
-
             }else {
                 //callingActivity.finish();
             }
+            System.out.println("exiting first async task post");
         }
     }
 
     class DoNetworkTask extends AsyncTask<String, Void, Emotion>{
+        Activity callingActivity;
+
+        public DoNetworkTask(Activity callingActivity) {
+            this.callingActivity = callingActivity;
+        }
 
         @Override
         protected Emotion doInBackground(String... strings) {
+            System.out.println("in second async task background");
             if(strings[0].isEmpty())
                 return null;
             //do network api task here
-
-
-
-            //initialize Emotion
-            Emotion emotion = new Emotion();
-            emotion.fileName = capturedImageFilePath;
-            emotion.date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()).toString();
-            return emotion;
+            // get emotions of picture from api
+            System.out.println("exiting second async task background");
+            return new ImageProcessor().processEmotions(strings[0]);
         }
 
         protected void onPostExecute(Emotion emotion) {
-            emotion.save(getApplicationContext());
+            System.out.println("in second async task post");
+
+            if (emotion != null) {
+                System.out.println("anger : " + Math.round(emotion.anger*100));
+                System.out.println("contempt : " + Math.round(emotion.contempt*100));
+                System.out.println("disgust : " + Math.round(emotion.disgust*100));
+                System.out.println("fear : " + Math.round(emotion.fear*100));
+                System.out.println("happiness : " + Math.round(emotion.happiness*100));
+                System.out.println("neutral : " + Math.round(emotion.neutral*100));
+                System.out.println("sadness : " + Math.round(emotion.sadness*100));
+                System.out.println("surprise : " + Math.round(emotion.surprise*100));
+
+                // Fill progress bars here
+                ProgressBar happinessBar = (ProgressBar) callingActivity.findViewById(R.id.progressBar);
+                happinessBar.setProgress(Math.round(emotion.happiness * 100));
+                //happinessBar.setProgress(70);
+                ProgressBar sadProgress = (ProgressBar) findViewById(R.id.progressBar2);
+                sadProgress.setProgress(Math.round(emotion.sadness * 100));
+                //progressBar2.setProgress(50);
+                ProgressBar NeutralProgress = (ProgressBar) findViewById(R.id.progressBar3);
+                NeutralProgress.setProgress(Math.round(emotion.neutral * 100));
+                //progressBar3.setProgress(20);
+
+                //Save emotion to database
+                emotion.save(getApplicationContext());
+            }
+            System.out.println("exiting second async task post");
         }
     }
 }

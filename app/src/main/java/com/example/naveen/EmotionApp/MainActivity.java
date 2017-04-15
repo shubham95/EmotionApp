@@ -122,23 +122,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    @Override
-    protected void onActivityResult(int reqCode, int respCode, Intent intent) {
-        new AsyncTask<String, Void, HttpEntity>() {
-
-            @Override
-            protected HttpEntity doInBackground(String... strings) {
-                HttpEntity result = new ImageProcessor().processEmotions(strings[0]);
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(HttpEntity entity){
-
-            }
-        }.execute(capturedImageFilePath);
-    }
+//    @TargetApi(Build.VERSION_CODES.CUPCAKE)
+//    @Override
+//    protected void onActivityResult(int reqCode, int respCode, Intent intent) {
+//        new AsyncTask<String, Void, HttpEntity>() {
+//
+//            @Override
+//            protected HttpEntity doInBackground(String... strings) {
+//                HttpEntity result = new ImageProcessor().processEmotions(strings[0]);
+//                return result;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(HttpEntity entity){
+//
+//            }
+//        }.execute(capturedImageFilePath);
+//    }
 
 }
 

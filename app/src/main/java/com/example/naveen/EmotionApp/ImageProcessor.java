@@ -20,6 +20,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
@@ -29,9 +31,8 @@ import static android.content.ContentValues.TAG;
 
 public class ImageProcessor {
 
-    Emotion emotion;
     HttpClient httpclient = HttpClients.createDefault();
-
+    String imageFilePath;
     public void processImage() {
         // Find our users face in a group of faces using face api
 
@@ -41,8 +42,9 @@ public class ImageProcessor {
 
     }
 
-    public HttpEntity processEmotions(String ImagePath) {
-        HttpEntity result = null;
+    public Emotion processEmotions(String imagePath) {
+        Emotion result = null;
+        imageFilePath = imagePath;
         try
         {
             URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize");
@@ -51,13 +53,13 @@ public class ImageProcessor {
             URI uri = builder.build();
             HttpPost request = new HttpPost(uri);
             request.setHeader("Content-Type", "application/octet-stream");
-            request.setHeader("Ocp-Apim-Subscription-Key", "a549eae280444460b6bc42542dd82b9e");
+            request.setHeader("Ocp-Apim-Subscription-Key", "5513070931b8419588dfb9092f6ea10e");
 
 
             // Request body
             //StringEntity reqEntity = new StringEntity("{body}");
             //request.setEntity(reqEntity);
-            File file = new File(ImagePath);
+            File file = new File(imagePath);
 
             byte[] b = new byte[(int) file.length()];
             try {
@@ -80,12 +82,12 @@ public class ImageProcessor {
             HttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
 
-            result = entity;
+            //result = entity;
             //Log.d(TAG, "processEmotions: " + EntityUtils.toString(entity));
             if (entity != null)
             {
                 //System.out.println(EntityUtils.toString(entity));\
-                parseEmotionJSON(EntityUtils.toString(entity));
+                result = parseEmotionJSON(EntityUtils.toString(entity));
             }
         }
         catch (Exception e)
@@ -93,11 +95,12 @@ public class ImageProcessor {
             System.out.println(e.getMessage());
         }
 
-        return  result;
+        return result;
     }
 
-    public void parseEmotionJSON(String jsonStr) {
+    public Emotion parseEmotionJSON(String jsonStr) {
         Log.e(TAG, "Response from url: " + jsonStr);
+        Emotion emotion = null;
 
         try {
             Object json = new JSONTokener(jsonStr).nextValue();
@@ -124,16 +127,17 @@ public class ImageProcessor {
                     System.out.println(scores.getString("sadness"));
                     System.out.println(scores.getString("surprise"));
 
-//                    emotion = new Emotion(scores.getString("anger"),
-//                                        scores.getString("contempt"),
-//                                        scores.getString("disgust"),
-//                                        scores.getString("fear"),
-//                                        scores.getString("happiness"),
-//                                        scores.getString("neutral"),
-//                                        scores.getString("sadness"),
-//                                        scores.getString("surprise"));
-                }
-                else {
+                    emotion = new Emotion((float)scores.getDouble("anger"),
+                                        (float)scores.getDouble("contempt"),
+                                        (float)scores.getDouble("disgust"),
+                                        (float)scores.getDouble("fear"),
+                                        (float)scores.getDouble("happiness"),
+                                        (float)scores.getDouble("neutral"),
+                                        (float)scores.getDouble("sadness"),
+                                        (float)scores.getDouble("surprise"),
+                                        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()).toString(),
+                                        imageFilePath);
+                } else {
                     System.out.println("No face recognized");
                 }
 
@@ -141,6 +145,6 @@ public class ImageProcessor {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        return emotion;
     }
 }
