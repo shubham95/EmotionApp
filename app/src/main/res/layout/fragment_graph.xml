@@ -8,23 +8,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.naveen.EmotionApp.FirstActivity$GraphPlaceholderFragment">
 
-    <!--<TextView-->
-        <!--android:id="@+id/section_label"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Graph"/>-->
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="graph"-->
-        <!--android:layout_below="@id/section_label"-->
-        <!--android:onClick="onToastClick"/>-->
-
     <com.jjoe64.graphview.GraphView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="400dp"
     android:id="@+id/graph"
-    />
+    android:padding="5dp"/>
 
 
 </RelativeLayout>

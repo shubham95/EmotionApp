@@ -31,23 +31,25 @@ public class TestFunctionality {
     }
 
     public static void testGraph(GraphView graphView, Activity currentActivity){
-        List<Emotion> list = new ArrayList<Emotion>();
+        //List<Emotion> list = new ArrayList<Emotion>();
 
 //        String day = GraphHelper.getDay(new SimpleDateFormat("yyyy/MM/dd").format(new Date()).toString());
 //        double dayD = Double.parseDouble(String.valueOf("1"));
 //        Log.d("Tag ","Day is " + dayD);
         //currentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2017,1,1);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(2017,1,1);
+//
+//        for (int i = 0; i < 30; i++) {
+//            Emotion e = new Emotion();
+//            e.anger = i%10;
+//            Date d = calendar.getTime();
+//            calendar.add(Calendar.DATE, 1);
+//            e.date = new SimpleDateFormat("yyyy/MM/dd").format(d).toString();
+//            list.add(e);
+//        }
 
-        for (int i = 0; i < 30; i++) {
-            Emotion e = new Emotion();
-            e.anger = i%10;
-            Date d = calendar.getTime();
-            calendar.add(Calendar.DATE, 1);
-            e.date = new SimpleDateFormat("yyyy/MM/dd").format(d).toString();
-            list.add(e);
-        }
+        List<Emotion> list = Emotion.getEmotionsListForGraphView(currentActivity);
 
         GraphHelper.showStatistics(list,graphView,currentActivity);
 
