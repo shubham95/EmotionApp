@@ -4,10 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -17,14 +21,20 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -244,33 +254,20 @@ public class FirstActivity extends AppCompatActivity {
         @Override
         public void onStart(){
             super.onStart();
-            LinearLayout listEmotionLayout = (LinearLayout)getActivity().findViewById(R.id.listEmotionsFragment);
-
-            //To remove previously added textview for date and pic file name
-                if(listEmotionLayout.getChildCount() > 0){
-                    listEmotionLayout.removeAllViews();
-                }
-
-                String[] columns = new String[]{Emotion.TableInof.COL_DATE, Emotion.TableInof.COL_FILE};
-                List<Emotion> list = Emotion.listBySelectionCriteria(getContext()
-                ,false
-                ,columns
-                ,null
-                ,null
-                ,null
-                ,null
-                , Emotion.TableInof.COL_DATE + " DESC"
-                ,"3"
+            String[] columns = new String[]{"_id", Emotion.TableInof.COL_DATE, Emotion.TableInof.COL_FILE};
+            Cursor cursor = Emotion.getCursorlistBySelectionCriteria(getContext()
+            ,false
+            ,columns
+            ,null
+            ,null
+            ,null
+            ,null
+            , Emotion.TableInof.COL_DATE + " DESC"
+            ,"5"
             );
 
-            for(int i=0; i < list.size();i++) {
-                Log.d("Size", list.get(i).date + "  " + list.get(i).fileName);
-                TextView textView = new TextView(getActivity());
-                textView.setText(list.get(i).date + "  " + list.get(i).fileName.substring(list.get(i).fileName.lastIndexOf("/")+1));
-
-                listEmotionLayout.addView(textView);
-
-            }
+            ListView listView = (ListView)getActivity().findViewById(R.id.listViewEmotions);
+            listView.setAdapter(new ListAdapter(getContext(),cursor));
         }
 
 

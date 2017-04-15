@@ -9,11 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private final static int DB_VERSION = 4;
+    private final static int DB_VERSION = 5;
     private final static String DB_NAME = "emotionDB";
 
     private final static String CREATE_TABLE = "CREATE TABLE  emotion " +
-            "(anger real, " +
+            "( _id integer primary key autoincrement, " +
+            "anger real, " +
             "contempt real, " +
             "disgust real, " +
             "fear real, " +

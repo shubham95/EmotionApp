@@ -111,6 +111,21 @@ public class Emotion {
         return list;
     }
 
+    public static Cursor getCursorlistBySelectionCriteria(Context context, boolean distinct,
+                                                 String[] columns,
+                                                 String selection,
+                                                 String[] selectionArgs,
+                                                 String groupBy,
+                                                 String having,
+                                                 String orderBy,
+                                                 String limit){
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        List<Emotion> list = new ArrayList<Emotion>();
+        Cursor cursor = database.query(distinct, TableInof.TABLE, columns, selection , selectionArgs, groupBy, having,orderBy, limit);
+        return  cursor;
+    }
+
 
 
     final static class TableInof{
