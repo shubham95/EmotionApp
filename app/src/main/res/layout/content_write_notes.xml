@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="20dp"
-                android:minHeight="10dp"
+                android:minHeight="20dp"
                 android:progress="0"
                 android:progressTint="@color/colorAccent" />
 
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="20dp"
-                android:minHeight="10dp"
+                android:minHeight="20dp"
                 android:progress="0"
                 android:progressTint="@android:color/holo_orange_light" />
 
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="20dp"
-                android:minHeight="10dp"
+                android:minHeight="20dp"
                 android:progress="0"
                 android:progressTint="@android:color/holo_blue_bright" />
 
