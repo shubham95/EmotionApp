@@ -35,10 +35,10 @@ public class GraphHelper {
             for (int i = list.size() -1 ; i >= 0 ; i--) {
                 Date X =  new SimpleDateFormat("yyyy-MM-dd").parse(list.get(i).date);
                 double Y = list.get(i).anger;
-                anger[i] = new DataPoint(X, Y);
+                anger[list.size()- 1 - i] = new DataPoint(X, Y);
 
                 Y = list.get(i).happiness;
-                happy[i] = new DataPoint(X, Y);
+                happy[list.size()- 1 - i] = new DataPoint(X, Y);
             }
 
 
@@ -64,7 +64,7 @@ public class GraphHelper {
             Date maxX = new SimpleDateFormat("yyyy-MM-dd").parse(list.get(0).date);
             graphView.getViewport().setMinX(minX.getTime());
             graphView.getViewport().setMaxX(maxX.getTime());
-            graphView.getGridLabelRenderer().setNumHorizontalLabels(list.size());
+            graphView.getGridLabelRenderer().setNumHorizontalLabels(2);
 
             graphView.getViewport().setYAxisBoundsManual(true);
             graphView.getViewport().setMinY(0);
