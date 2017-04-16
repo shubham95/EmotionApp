@@ -1,11 +1,18 @@
 package com.example.naveen.EmotionApp;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,58 +28,107 @@ public class GraphHelper {
      * @param context application context
      */
     public static void showStatistics(List<Emotion> list , GraphView graphView, Context context){
-        DataPoint[] anger = new DataPoint[list.size()];
+        try {
+            graphView.removeAllSeries();
+            //graphView.getGridLabelRenderer().reloadStyles();
+            DataPoint[] anger = new DataPoint[list.size()];
+            DataPoint[] happy = new DataPoint[list.size()];
 
-        for (int i = 0; i < list.size(); i++) {
-            double Y = list.get(i).anger;
-            int X = Integer.parseInt(getDay(list.get(i).date));
-            anger[i] = new DataPoint( X, Y );
-        }
+            for (int i = list.size() -1 ; i >= 0 ; i--) {
+                Date X =  new SimpleDateFormat("yyyy-MM-dd").parse(list.get(i).date);
+                double Y = list.get(i).anger;
+                anger[list.size()- 1 - i] = new DataPoint(X, Y);
 
-        LineGraphSeries<DataPoint> angerSeries = new LineGraphSeries<DataPoint>(anger);
+                Y = list.get(i).happiness;
+                happy[list.size()- 1 - i] = new DataPoint(X, Y);
+            }
+
+
+            LineGraphSeries<DataPoint> angerSeries = new LineGraphSeries<DataPoint>(anger);
+            angerSeries.setTitle("anger");
+            angerSeries.setDataPointsRadius(5);
+            angerSeries.setDrawDataPoints(true);
+            angerSeries.setColor(Color.RED);
 //        LineGraphSeries<DataPoint> contemptSeries = new LineGraphSeries<>();
 //        LineGraphSeries<DataPoint> disgustSeries = new LineGraphSeries<>();
 //        LineGraphSeries<DataPoint> fearSeries = new LineGraphSeries<>();
-//        LineGraphSeries<DataPoint> happinessSeries = new LineGraphSeries<>();
+            LineGraphSeries<DataPoint> happinessSeries = new LineGraphSeries<>(happy);
+            happinessSeries.setTitle("happiness");
+            happinessSeries.setDrawDataPoints(true);
+            happinessSeries.setDataPointsRadius(5);
+            happinessSeries.setColor(Color.BLUE);
 //        LineGraphSeries<DataPoint> neutralSeries = new LineGraphSeries<>();
 //        LineGraphSeries<DataPoint> sadSeries = new LineGraphSeries<>();
 //        LineGraphSeries<DataPoint> surpriseSeries = new LineGraphSeries<>();
-        graphView.getViewport().setXAxisBoundsManual(true);
-        graphView.getViewport().setMinX(1);
-        graphView.getViewport().setMaxX(31);
 
-        graphView.getViewport().setYAxisBoundsManual(true);
-        graphView.getViewport().setMinY(-10);
-        graphView.getViewport().setMaxY(10);
+            graphView.getViewport().setXAxisBoundsManual(true);
+            Date minX = new SimpleDateFormat("yyyy-MM-dd").parse(list.get(list.size() - 1).date);
+            Date maxX = new SimpleDateFormat("yyyy-MM-dd").parse(list.get(0).date);
+            graphView.getViewport().setMinX(minX.getTime());
+            graphView.getViewport().setMaxX(maxX.getTime());
+            graphView.getGridLabelRenderer().setNumHorizontalLabels(list.size());
 
-        graphView.getGridLabelRenderer().setHorizontalAxisTitle("Day");
-        graphView.getGridLabelRenderer().setVerticalAxisTitle("Socres");
+            graphView.getViewport().setYAxisBoundsManual(true);
+            graphView.getViewport().setMinY(0);
+            graphView.getViewport().setMaxY(1);
 
-        //graphView.getGridLabelRenderer().setNumVerticalLabels(10);
-        //graphView.getGridLabelRenderer().setNumHorizontalLabels(10);
+            graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(graphView.getContext()));
+            graphView.getGridLabelRenderer().setHorizontalAxisTitle("Day");
+            graphView.getGridLabelRenderer().setHorizontalLabelsAngle(110);
+            graphView.getGridLabelRenderer().setVerticalAxisTitle("Socres");
 
-//        graphView.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
-//            @Override
-//            public String formatLabel(double value, boolean isValueX) {
-//                if (isValueX) {
-//                    // show normal x values
-//                    String Xlabel = super.formatLabel(value, isValueX);
-//                    return Xlabel.substring(0, Xlabel.indexOf('.')-1);
-//                } else {
-//                    // show currency for y values
-//                    return super.formatLabel(value, isValueX);
-//                }
-//            }
-//        });
+            //to show legends at the top
+            graphView.getLegendRenderer().setVisible(true);
+            graphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
-        //graphView.getViewport().setScrollable(true);
+            graphView.getGridLabelRenderer().setHumanRounding(false);
 
-        graphView.addSeries(angerSeries);
+            graphView.addSeries(angerSeries);
+            graphView.addSeries(happinessSeries);
+        }catch (Exception e){
+
+        }
 
     }
 
-    //date format yyyy/MM/dd
-    public static String getDay(String date) {
-        return date.substring(date.lastIndexOf('/') + 1);
+//    //date format yyyy-MM-dd'T'HH:mm:ss
+//    public static String getDay(String date) {
+//        int startIndex = date.lastIndexOf('-') + 1;
+//        return date.substring(startIndex, startIndex + 2);
+//    }
+
+    public static void testGraph(GraphView graphView, Context context){
+        Calendar calendar = Calendar.getInstance();
+        Date d1 = calendar.getTime();
+        calendar.add(Calendar.DATE, 1);
+        Date d2 = calendar.getTime();
+        calendar.add(Calendar.DATE, 1);
+        Date d3 = calendar.getTime();
+
+        GraphView graph = graphView;
+
+// you can directly pass Date objects to DataPoint-Constructor
+// this will convert the Date to double via Date#getTime()
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(d1, 1),
+                new DataPoint(d2, 5),
+                new DataPoint(d3, 3)
+        });
+
+        graph.addSeries(series);
+
+// set date label formatter
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(graphView.getContext()));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+
+// set manual x bounds to have nice steps
+        graph.getViewport().setMinX(d1.getTime());
+        graph.getViewport().setMaxX(d3.getTime());
+        graph.getViewport().setXAxisBoundsManual(true);
+
+// as we use dates as labels, the human rounding to nice readable numbers
+// is not necessary
+        graph.getGridLabelRenderer().setHumanRounding(false);
+
     }
 }

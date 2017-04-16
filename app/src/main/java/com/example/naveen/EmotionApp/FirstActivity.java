@@ -299,7 +299,24 @@ public class FirstActivity extends AppCompatActivity {
         public void onStart(){
             super.onStart();
             GraphView graphView = (GraphView)getActivity().findViewById(R.id.graph);
-            TestFunctionality.testGraph(graphView, getActivity());
+
+//            uncomment to insert manual emotion to test graph. change values of date, anger, etc according your need.
+//            Emotion temp = new Emotion();
+//            temp.anger = (float)0.203407168;
+//            temp.contempt = (float)0.203407168;
+//            temp.disgust = (float)0.00168033107;
+//            temp.fear = (float)2.34170759E-4;
+//            temp.happiness = (float)0;
+//            temp.neutral = (float)1.4002951E-6;
+//            temp.sadness = (float)0.7927469;
+//            temp.surprise = (float)0.001805695;
+//            temp.date = "2017-04-17T13:11:17";
+//            temp.fileName = "/storage/emulated/0/Android/data/" +
+//                    "com.example.naveen.EmotionApp/files/Pictures/JPEG_20170416_131103_875443797.jpg";
+//            temp.save(getContext());
+            List<Emotion> list = Emotion.getEmotionsListForGraphView(getActivity());
+
+            GraphHelper.showStatistics(list,graphView,getActivity());
         }
 
         @Override

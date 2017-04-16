@@ -68,20 +68,33 @@ public class Emotion {
         List<Emotion> list = new ArrayList<Emotion>();
         Cursor cursor = database.rawQuery("Select * from " + TableInof.TABLE , null);
 
+
+//        id integer primary key autoincrement, " +  0
+//        "anger real, " +   1
+//                "contempt real, " + 2
+//                "disgust real, " + 3
+//                "fear real, " + 4
+//                "happiness real, " + 5
+//                "neutral real, " + 6
+//                "sadness real, " + 7
+//                "surprise real, " + 8
+//                "date nvarchar(20), " + 9
+//                "fileName nvarchar(200))"; 10
+
         //moveToFirst() check if there is atleast one row
         if(cursor.moveToFirst()) {
             do {
                 Emotion emotion = new Emotion();
-                emotion.anger = cursor.getFloat(0);
-                emotion.contempt = cursor.getFloat(1);
-                emotion.disgust = cursor.getFloat(2);
-                emotion.fear = cursor.getFloat(3);
-                emotion.happiness = cursor.getFloat(4);
-                emotion.neutral = cursor.getFloat(5);
-                emotion.sadness = cursor.getFloat(6);
-                emotion.surprise = cursor.getFloat(7);
-                emotion.date = cursor.getString(8);
-                emotion.fileName = cursor.getString(9);
+                emotion.anger = cursor.getFloat(1);
+                emotion.contempt = cursor.getFloat(2);
+                emotion.disgust = cursor.getFloat(3);
+                emotion.fear = cursor.getFloat(4);
+                emotion.happiness = cursor.getFloat(5);
+                emotion.neutral = cursor.getFloat(6);
+                emotion.sadness = cursor.getFloat(7);
+                emotion.surprise = cursor.getFloat(8);
+                emotion.date = cursor.getString(9);
+                emotion.fileName = cursor.getString(10);
                 list.add(emotion);
 
             } while (cursor.moveToNext());
@@ -90,40 +103,41 @@ public class Emotion {
         return list;
     }
 
-    public static List<Emotion> listBySelectionCriteria(Context context, boolean distinct,
-                                                        String[] columns,
-                                                        String selection,
-                                                        String[] selectionArgs,
-                                                        String groupBy,
-                                                        String having,
-                                                        String orderBy,
-                                                        String limit){
-        DatabaseHelper databaseHelper = new DatabaseHelper(context);
-        SQLiteDatabase database = databaseHelper.getWritableDatabase();
-        List<Emotion> list = new ArrayList<Emotion>();
-        Cursor cursor = database.query(distinct, TableInof.TABLE, columns, selection , selectionArgs, groupBy, having,orderBy, limit);
-
-        // check if there is atleast one row
-        if(cursor.moveToFirst()) {
-            do {
-                Emotion emotion = new Emotion();
-//                emotion.anger = cursor.getFloat(0);
-//                emotion.contempt = cursor.getFloat(1);
-//                emotion.disgust = cursor.getFloat(2);
-//                emotion.fear = cursor.getFloat(3);
-//                emotion.happiness = cursor.getFloat(4);
-//                emotion.neutral = cursor.getFloat(5);
-//                emotion.sadness = cursor.getFloat(6);
-//                emotion.surprise = cursor.getFloat(7);
-                emotion.date = cursor.getString(0);
-                emotion.fileName = cursor.getString(1);
-                list.add(emotion);
-
-            } while (cursor.moveToNext());
-        }
-
-        return list;
-    }
+//    public static List<Emotion> listBySelectionCriteria(Context context, boolean distinct,
+//                                                        String[] columns,
+//                                                        String selection,
+//                                                        String[] selectionArgs,
+//                                                        String groupBy,
+//                                                        String having,
+//                                                        String orderBy,
+//                                                        String limit)
+//    {
+//        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+//        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+//        List<Emotion> list = new ArrayList<Emotion>();
+//        Cursor cursor = database.query(distinct, TableInof.TABLE, columns, selection , selectionArgs, groupBy, having,orderBy, limit);
+//
+//        // check if there is atleast one row
+//        if(cursor.moveToFirst()) {
+//            do {
+//                Emotion emotion = new Emotion();
+////                emotion.anger = cursor.getFloat(0);
+////                emotion.contempt = cursor.getFloat(1);
+////                emotion.disgust = cursor.getFloat(2);
+////                emotion.fear = cursor.getFloat(3);
+////                emotion.happiness = cursor.getFloat(4);
+////                emotion.neutral = cursor.getFloat(5);
+////                emotion.sadness = cursor.getFloat(6);
+////                emotion.surprise = cursor.getFloat(7);
+//                emotion.date = cursor.getString(0);
+//                emotion.fileName = cursor.getString(1);
+//                list.add(emotion);
+//
+//            } while (cursor.moveToNext());
+//        }
+//
+//        return list;
+//    }
 
     public static Cursor getCursorlistBySelectionCriteria(Context context, boolean distinct,
                                                  String[] columns,
@@ -138,6 +152,68 @@ public class Emotion {
         List<Emotion> list = new ArrayList<Emotion>();
         Cursor cursor = database.query(distinct, TableInof.TABLE, columns, selection , selectionArgs, groupBy, having,orderBy, limit);
         return  cursor;
+    }
+
+
+    public static List<Emotion> getEmotionsListForGraphView(Context context){
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+
+        List<Emotion> list = new ArrayList<Emotion>();
+        String sqlQuery = "Select  " +
+                "  avg(anger) as anger" +
+                ", avg(contempt) as contempt" +
+                ", avg(disgust) as disgust" +
+                ", avg(fear) as fear" +
+                ", avg(happiness) as happiness" +
+                ", avg(neutral) as neutral" +
+                ", avg(sadness) as sadness" +
+                ", avg(surprise) as surprise" +
+                ",  substr(date,1,10) as dateOnly " +
+                " from emotion group by dateOnly " +
+                " order by dateOnly desc" +
+                " limit 15" ;
+        Cursor cursor = database.rawQuery(sqlQuery , null);
+
+
+//        id integer primary key autoincrement, " +  0
+//        "anger real, " +   1
+//                "contempt real, " + 2
+//                "disgust real, " + 3
+//                "fear real, " + 4
+//                "happiness real, " + 5
+//                "neutral real, " + 6
+//                "sadness real, " + 7
+//                "surprise real, " + 8
+//                "date nvarchar(20), " + 9
+//                "fileName nvarchar(200))"; 10
+
+        //moveToFirst() check if there is atleast one row
+        if(cursor.moveToFirst()) {
+            do {
+                Emotion emotion = new Emotion();
+                emotion.anger = cursor.getFloat(0);
+                emotion.contempt = cursor.getFloat(1);
+                emotion.disgust = cursor.getFloat(2);
+                emotion.fear = cursor.getFloat(3);
+                emotion.happiness = cursor.getFloat(4);
+                emotion.neutral = cursor.getFloat(5);
+                emotion.sadness = cursor.getFloat(6);
+                emotion.surprise = cursor.getFloat(7);
+                emotion.date = cursor.getString(8);
+                //emotion.fileName = cursor.getString(10);
+                list.add(emotion);
+
+            } while (cursor.moveToNext());
+        }
+
+        return list;
+    }
+
+    @Override
+    public String toString(){
+        return anger + "\n" + contempt + "\n" + disgust +"\n" + fear + "\n" + happiness +"\n" +
+                neutral + "\n" + sadness +"\n" + surprise + "\n" + date + "\n" + fileName;
     }
 
 

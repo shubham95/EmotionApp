@@ -1,6 +1,8 @@
 package com.example.naveen.EmotionApp;
 
 import android.os.SystemClock;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -16,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -62,23 +65,24 @@ public class ImageProcessor {
             // Request body
             //StringEntity reqEntity = new StringEntity("{body}");
             //request.setEntity(reqEntity);
-            File file = new File(imagePath);
+            byte[] b  = getCompressedBitmapToFile(new File(imagePath));
 
-            byte[] b = new byte[(int) file.length()];
-            try {
-                FileInputStream fileInputStream = new FileInputStream(file);
-                fileInputStream.read(b);
-//                  for (int i = 0; i < b.length; i++) {
-//                              System.out.print((char)b[i]);
-//                   }
-            } catch (FileNotFoundException e) {
-                System.out.println("File Not Found.");
-                e.printStackTrace();
-            }
-            catch (IOException e1) {
-                System.out.println("Error Reading The File.");
-                e1.printStackTrace();
-            }
+//            File file = new File(imagePath);
+//            byte[] b = new byte[(int) file.length()];
+//            try {
+//                FileInputStream fileInputStream = new FileInputStream(file);
+//                fileInputStream.read(b);
+////                  for (int i = 0; i < b.length; i++) {
+////                              System.out.print((char)b[i]);
+////                   }
+//            } catch (FileNotFoundException e) {
+//                System.out.println("File Not Found.");
+//                e.printStackTrace();
+//            }
+//            catch (IOException e1) {
+//                System.out.println("Error Reading The File.");
+//                e1.printStackTrace();
+//            }
             ByteArrayEntity bae = new ByteArrayEntity(b);
             request.setEntity(bae);
 
@@ -158,5 +162,27 @@ public class ImageProcessor {
         long timeDifference = endTime - startTime;
         System.out.println("Time Elapsed for JSON Parser: " + timeDifference);
         return emotion;
+    }
+
+
+    public byte[] getCompressedBitmapToFile(File file){
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = 16;//scale;
+            inputStream = new FileInputStream(file);
+
+            Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
+            inputStream.close();
+
+            // here i override the original image file
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , stream);
+
+            return stream.toByteArray();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -156,6 +156,7 @@ public class WriteNotesActivity extends AppCompatActivity {
             System.out.println("in second async task post");
 
             if (emotion != null) {
+                System.out.println(emotion);
                 System.out.println("anger : " + Math.round(emotion.anger*100));
                 System.out.println("contempt : " + Math.round(emotion.contempt*100));
                 System.out.println("disgust : " + Math.round(emotion.disgust*100));
@@ -164,25 +165,25 @@ public class WriteNotesActivity extends AppCompatActivity {
                 System.out.println("neutral : " + Math.round(emotion.neutral*100));
                 System.out.println("sadness : " + Math.round(emotion.sadness*100));
                 System.out.println("surprise : " + Math.round(emotion.surprise*100));
-
+                System.out.println("date: "+ emotion.date);
+                System.out.println("file: "+ emotion.fileName);
                 // Fill progress bars here
                 //private ProgressBar progreso;
                 ObjectAnimator progressAnimator;
-                //progreso = (ProgressBar)findViewById(R.id.progressbar1);
                 ProgressBar happinessBar = (ProgressBar) callingActivity.findViewById(R.id.progressBar);
                 //happinessBar.setProgress(Math.round( (emotion.happiness+emotion.surprise) * 100));
                 progressAnimator = ObjectAnimator.ofInt(happinessBar, "progress", 0, Math.round((emotion.happiness+emotion.surprise) * 100));
-                progressAnimator.setDuration(2000);
+                progressAnimator.setDuration(1500);
                 progressAnimator.start();
                 ProgressBar sadBar = (ProgressBar) findViewById(R.id.progressBar2);
                 //sadBar.setProgress(Math.round( (emotion.sadness+emotion.anger+emotion.contempt+emotion.disgust+emotion.fear) * 100));
                 progressAnimator = ObjectAnimator.ofInt(sadBar, "progress", 0, Math.round((emotion.sadness+emotion.anger+emotion.contempt+emotion.disgust+emotion.fear) * 100));
-                progressAnimator.setDuration(2000);
+                progressAnimator.setDuration(1500);
                 progressAnimator.start();
                 ProgressBar NeutralBar = (ProgressBar) findViewById(R.id.progressBar3);
                 //NeutralBar.setProgress(Math.round(emotion.neutral * 100));
                 progressAnimator = ObjectAnimator.ofInt(NeutralBar, "progress", 0, Math.round(emotion.neutral * 100));
-                progressAnimator.setDuration(2000);
+                progressAnimator.setDuration(1500);
                 progressAnimator.start();
 
                 //Save emotion to database
