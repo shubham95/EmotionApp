@@ -190,6 +190,7 @@ public class WriteNotesActivity extends AppCompatActivity {
             // get emotions of picture from api
             System.out.println("exiting second async task background");
             Emotion emotion= null;
+            //if emotion is not cached, do network task else get emotions from database
             if(!isEmotionCached){
                 emotion = new ImageProcessor().processEmotions(strings[0]);
                 boolean isSaved = emotion.save(getApplicationContext());
