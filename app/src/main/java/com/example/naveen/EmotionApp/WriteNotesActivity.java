@@ -38,7 +38,13 @@ public class WriteNotesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_notes);
-        capturedImageFilePath  = MyCamera.takePictureAndSave(this);
+
+        boolean isActivityStratedOnClickingListItem = false;
+        if(isActivityStratedOnClickingListItem){
+
+        }else {
+            capturedImageFilePath = MyCamera.takePictureAndSave(this);
+        }
     }
 
     @Override

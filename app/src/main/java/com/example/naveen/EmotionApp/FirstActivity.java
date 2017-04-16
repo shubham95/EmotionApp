@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -268,6 +269,12 @@ public class FirstActivity extends AppCompatActivity {
 
             ListView listView = (ListView)getActivity().findViewById(R.id.listViewEmotions);
             listView.setAdapter(new ListAdapter(getContext(),cursor));
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getContext(),String.valueOf(id), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
 
