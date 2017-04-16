@@ -210,6 +210,12 @@ public class Emotion {
         return list;
     }
 
+    @Override
+    public String toString(){
+        return anger + "\n" + contempt + "\n" + disgust +"\n" + fear + "\n" + happiness +"\n" +
+                neutral + "\n" + sadness +"\n" + surprise + "\n" + date + "\n" + fileName;
+    }
+
 
 
     final static class TableInof{
