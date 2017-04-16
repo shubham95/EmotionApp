@@ -60,51 +60,55 @@
             android:columnCount="2"
             android:rowCount="3"
             android:padding="5dp">
+
             <TextView
-                android:text="happiness"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="happiness" />
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill_horizontal"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
                 android:maxHeight="20dp"
                 android:minHeight="20dp"
+                android:padding="2dp"
                 android:progress="0"
                 android:progressTint="@color/colorAccent" />
 
             <TextView
-                android:text="sadness"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="sadness" />
+
             <ProgressBar
                 android:id="@+id/progressBar2"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill_horizontal"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
                 android:maxHeight="20dp"
                 android:minHeight="20dp"
+                android:padding="2dp"
                 android:progress="0"
                 android:progressTint="@android:color/holo_orange_light" />
 
             <TextView
-                android:text="neutral"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="neutral" />
+
             <ProgressBar
                 android:id="@+id/progressBar3"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill_horizontal"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
                 android:maxHeight="20dp"
                 android:minHeight="20dp"
+                android:padding="2dp"
                 android:progress="0"
                 android:progressTint="@android:color/holo_blue_bright" />
 

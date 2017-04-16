@@ -169,7 +169,7 @@ public class ImageProcessor {
         try {
             FileInputStream inputStream = new FileInputStream(file);
             BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = 16;//scale;
+            o2.inSampleSize = 8;//scale;
             inputStream = new FileInputStream(file);
 
             Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
