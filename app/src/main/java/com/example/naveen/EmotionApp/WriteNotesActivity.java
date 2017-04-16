@@ -1,5 +1,6 @@
 package com.example.naveen.EmotionApp;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -44,8 +45,10 @@ public class WriteNotesActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //System.out.println(capturedImageFilePath);
         if(requestCode == MyCamera.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            new ImageLoader(null, this).execute(capturedImageFilePath);
-            new DoNetworkTask(this).execute(capturedImageFilePath);
+            //new ImageLoader(null, this).execute(capturedImageFilePath);
+            //new DoNetworkTask(this).execute(capturedImageFilePath);
+            new ImageLoader(null, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, capturedImageFilePath);
+            new DoNetworkTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, capturedImageFilePath);
         }
         else{
             finish();
@@ -164,15 +167,23 @@ public class WriteNotesActivity extends AppCompatActivity {
                 System.out.println("date: "+ emotion.date);
                 System.out.println("file: "+ emotion.fileName);
                 // Fill progress bars here
+                //private ProgressBar progreso;
+                ObjectAnimator progressAnimator;
                 ProgressBar happinessBar = (ProgressBar) callingActivity.findViewById(R.id.progressBar);
-                happinessBar.setProgress(Math.round(emotion.happiness * 100));
-                //happinessBar.setProgress(70);
-                ProgressBar sadProgress = (ProgressBar) findViewById(R.id.progressBar2);
-                sadProgress.setProgress(Math.round(emotion.sadness * 100));
-                //progressBar2.setProgress(50);
-                ProgressBar NeutralProgress = (ProgressBar) findViewById(R.id.progressBar3);
-                NeutralProgress.setProgress(Math.round(emotion.neutral * 100));
-                //progressBar3.setProgress(20);
+                //happinessBar.setProgress(Math.round( (emotion.happiness+emotion.surprise) * 100));
+                progressAnimator = ObjectAnimator.ofInt(happinessBar, "progress", 0, Math.round((emotion.happiness+emotion.surprise) * 100));
+                progressAnimator.setDuration(1500);
+                progressAnimator.start();
+                ProgressBar sadBar = (ProgressBar) findViewById(R.id.progressBar2);
+                //sadBar.setProgress(Math.round( (emotion.sadness+emotion.anger+emotion.contempt+emotion.disgust+emotion.fear) * 100));
+                progressAnimator = ObjectAnimator.ofInt(sadBar, "progress", 0, Math.round((emotion.sadness+emotion.anger+emotion.contempt+emotion.disgust+emotion.fear) * 100));
+                progressAnimator.setDuration(1500);
+                progressAnimator.start();
+                ProgressBar NeutralBar = (ProgressBar) findViewById(R.id.progressBar3);
+                //NeutralBar.setProgress(Math.round(emotion.neutral * 100));
+                progressAnimator = ObjectAnimator.ofInt(NeutralBar, "progress", 0, Math.round(emotion.neutral * 100));
+                progressAnimator.setDuration(1500);
+                progressAnimator.start();
 
                 //Save emotion to database
                 emotion.save(getApplicationContext());

@@ -52,7 +52,6 @@
                 <!--android:layout_height="wrap_content" />-->
 
         <!--</LinearLayout>-->
-
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +70,11 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_height="wrap_content"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:maxHeight="20dp"
+                android:minHeight="10dp"
+                android:progress="0"
+                android:progressTint="@color/colorAccent" />
 
             <TextView
                 android:text="sadness"
@@ -83,7 +86,11 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_height="wrap_content"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:maxHeight="20dp"
+                android:minHeight="10dp"
+                android:progress="0"
+                android:progressTint="@android:color/holo_orange_light" />
 
             <TextView
                 android:text="neutral"
@@ -95,9 +102,11 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_height="wrap_content"
-                android:padding="2dp"/>
-
-
+                android:padding="2dp"
+                android:maxHeight="20dp"
+                android:minHeight="10dp"
+                android:progress="0"
+                android:progressTint="@android:color/holo_blue_bright" />
 
         </GridLayout>
 

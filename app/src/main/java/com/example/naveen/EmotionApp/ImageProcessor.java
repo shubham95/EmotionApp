@@ -1,5 +1,6 @@
 package com.example.naveen.EmotionApp;
 
+import android.os.SystemClock;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -48,6 +49,8 @@ public class ImageProcessor {
     public Emotion processEmotions(String imagePath) {
         Emotion result = null;
         imageFilePath = imagePath;
+        long startTime = SystemClock.elapsedRealtime();
+        System.out.println("Start time of API call : " + startTime);
         try
         {
             URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize");
@@ -98,11 +101,16 @@ public class ImageProcessor {
         {
             System.out.println(e.getMessage());
         }
-
+        long endTime = SystemClock.elapsedRealtime();
+        System.out.println("End time for API call : " + endTime);
+        long timeDifference = endTime - startTime;
+        System.out.println("Time Elapsed for API call : " + timeDifference);
         return result;
     }
 
     public Emotion parseEmotionJSON(String jsonStr) {
+        long startTime = SystemClock.elapsedRealtime();
+        System.out.println("Start time of JSON Parser: " + startTime);
         Log.e(TAG, "Response from url: " + jsonStr);
         Emotion emotion = null;
 
@@ -149,6 +157,10 @@ public class ImageProcessor {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        long endTime = SystemClock.elapsedRealtime();
+        System.out.println("End time for JSON Parser: " + endTime);
+        long timeDifference = endTime - startTime;
+        System.out.println("Time Elapsed for JSON Parser: " + timeDifference);
         return emotion;
     }
 
@@ -157,7 +169,7 @@ public class ImageProcessor {
         try {
             FileInputStream inputStream = new FileInputStream(file);
             BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = 8;//scale;
+            o2.inSampleSize = 16;//scale;
             inputStream = new FileInputStream(file);
 
             Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
