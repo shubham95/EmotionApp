@@ -89,7 +89,7 @@ class ListImageLoader extends AsyncTask<String, Void, Bitmap> {
             return null;
         //do image decoding task
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 16;
+        options.inSampleSize = 8;
         Bitmap bitmap = BitmapFactory.decodeFile(strings[0],options);
         return bitmap;
     }
