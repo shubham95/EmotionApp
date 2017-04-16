@@ -272,7 +272,11 @@ public class FirstActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getContext(),String.valueOf(id), Toast.LENGTH_SHORT).show();
+                    //start WritesNotesAcriity
+                    Intent intntToStrtWrtNotesActivity = new Intent(getContext(),WriteNotesActivity.class);
+                    intntToStrtWrtNotesActivity.putExtra("id",id);
+                    startActivity(intntToStrtWrtNotesActivity);
+                    //Toast.makeText(getContext(),String.valueOf(id), Toast.LENGTH_SHORT).show();
                 }
             });
         }

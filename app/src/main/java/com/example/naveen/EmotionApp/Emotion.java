@@ -210,6 +210,14 @@ public class Emotion {
         return list;
     }
 
+
+    public static Cursor executeRawQuery(Context context,String sql){
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        Cursor cursor = database.rawQuery(sql, null);
+        return cursor;
+    }
+
     @Override
     public String toString(){
         return anger + "\n" + contempt + "\n" + disgust +"\n" + fear + "\n" + happiness +"\n" +
