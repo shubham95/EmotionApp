@@ -153,7 +153,6 @@ public class WriteNotesActivity extends AppCompatActivity {
             System.out.println("in second async task post");
 
             if (emotion != null) {
-                System.out.println(emotion);
                 System.out.println("anger : " + Math.round(emotion.anger*100));
                 System.out.println("contempt : " + Math.round(emotion.contempt*100));
                 System.out.println("disgust : " + Math.round(emotion.disgust*100));
