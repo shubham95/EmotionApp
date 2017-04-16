@@ -24,47 +24,91 @@
             android:padding="5dp"
             android:scaleType="centerCrop" />
 
-        <LinearLayout
-            android:id="@+id/progressBars"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/imageView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:elevation="1dp"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/progressBars"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignBottom="@+id/imageView"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:orientation="vertical">-->
 
+            <!--<ProgressBar-->
+                <!--android:id="@+id/progressBar"-->
+                <!--style="?android:attr/progressBarStyleHorizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
+            <!--<ProgressBar-->
+                <!--android:id="@+id/progressBar2"-->
+                <!--style="?android:attr/progressBarStyleHorizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
+            <!--<ProgressBar-->
+                <!--android:id="@+id/progressBar3"-->
+                <!--style="?android:attr/progressBarStyleHorizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
+        <!--</LinearLayout>-->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBars"
+            android:layout_alignBottom="@id/imageView"
+            android:columnCount="2"
+            android:rowCount="3"
+            android:padding="5dp">
+            <TextView
+                android:text="happiness"
+                android:padding="2dp"/>
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="wrap_content"
+                android:padding="2dp"
                 android:maxHeight="20dp"
                 android:minHeight="20dp"
                 android:progress="0"
                 android:progressTint="@color/colorAccent" />
 
+            <TextView
+                android:text="sadness"
+                android:padding="2dp"/>
             <ProgressBar
                 android:id="@+id/progressBar2"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="wrap_content"
+                android:padding="2dp"
                 android:maxHeight="20dp"
                 android:minHeight="20dp"
                 android:progress="0"
                 android:progressTint="@android:color/holo_orange_light" />
 
+            <TextView
+                android:text="neutral"
+                android:padding="2dp"/>
             <ProgressBar
                 android:id="@+id/progressBar3"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="wrap_content"
+                android:padding="2dp"
                 android:maxHeight="20dp"
                 android:minHeight="20dp"
                 android:progress="0"
                 android:progressTint="@android:color/holo_blue_bright" />
 
-        </LinearLayout>
+        </GridLayout>
 
         <LinearLayout
             android:id="@+id/interactBox"
