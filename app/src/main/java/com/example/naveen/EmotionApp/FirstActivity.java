@@ -211,7 +211,7 @@ public class FirstActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Saved Emotion";
+                    return "Saved Emotions";
                 case 1:
                     return "Graph";
             }
