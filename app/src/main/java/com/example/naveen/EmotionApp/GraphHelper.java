@@ -49,6 +49,7 @@ public class GraphHelper {
             angerSeries.setDataPointsRadius(5);
             angerSeries.setDrawDataPoints(true);
             angerSeries.setColor(Color.RED);
+            angerSeries.setAnimated(true);
 //        LineGraphSeries<DataPoint> contemptSeries = new LineGraphSeries<>();
 //        LineGraphSeries<DataPoint> disgustSeries = new LineGraphSeries<>();
 //        LineGraphSeries<DataPoint> fearSeries = new LineGraphSeries<>();
@@ -57,6 +58,7 @@ public class GraphHelper {
             happinessSeries.setDrawDataPoints(true);
             happinessSeries.setDataPointsRadius(5);
             happinessSeries.setColor(Color.BLUE);
+            happinessSeries.setAnimated(true);
 //        LineGraphSeries<DataPoint> neutralSeries = new LineGraphSeries<>();
 //        LineGraphSeries<DataPoint> sadSeries = new LineGraphSeries<>();
 //        LineGraphSeries<DataPoint> surpriseSeries = new LineGraphSeries<>();

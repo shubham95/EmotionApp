@@ -2,16 +2,12 @@ package com.example.naveen.EmotionApp;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,13 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
-import junit.framework.Test;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 public class WriteNotesActivity extends AppCompatActivity {
     String capturedImageFilePath = "";
     NestedScrollView nestedScrollView;
@@ -39,8 +28,40 @@ public class WriteNotesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_notes);
-        capturedImageFilePath  = MyCamera.takePictureAndSave(this);
+
+        Intent intent = getIntent();
+        if(isActivityStratedOnClickingListItem(intent)){
+            showSavedEmotionDetails(intent.getLongExtra("id",-15));
+        }else {
+            capturedImageFilePath = MyCamera.takePictureAndSave(this);
+        }
     }
+    private void showSavedEmotionDetails(long id){
+        //Toast.makeText(getApplicationContext(),String.valueOf(id), Toast.LENGTH_SHORT).show();
+        String[] columns = new String[]{"_id", Emotion.TableInof.COL_DATE, Emotion.TableInof.COL_FILE};
+        Cursor cursor = Emotion.getCursorlistBySelectionCriteria(getApplicationContext()
+                ,false
+                ,columns
+                ,null
+                ,null
+                ,null
+                ,null
+                , Emotion.TableInof.COL_DATE + " DESC"
+                ,"5"
+        );
+
+        cursor.moveToPosition((int)id);
+        String filePath = cursor.getString(2);
+        new ImageLoader(null, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,filePath);
+        new DoNetworkTask(this,true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,filePath);
+    }
+    private boolean isActivityStratedOnClickingListItem(Intent intent){
+        if(intent.hasExtra("id"))
+            return true;
+        else
+            return false;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -50,7 +71,7 @@ public class WriteNotesActivity extends AppCompatActivity {
             //new DoNetworkTask(this).execute(capturedImageFilePath);
             createMessage("system", "Diary: Hi, How are you today ?");
             new ImageLoader(null, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, capturedImageFilePath);
-            new DoNetworkTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, capturedImageFilePath);
+            new DoNetworkTask(this, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, capturedImageFilePath);
         }
         else{
             finish();
@@ -94,6 +115,7 @@ public class WriteNotesActivity extends AppCompatActivity {
         }
     }
 
+    //On send text button
     protected void onClickButton(View view) {
         EditText messageText = (EditText) findViewById(R.id.messageText);
         String message = messageText.getText().toString();
@@ -152,9 +174,11 @@ public class WriteNotesActivity extends AppCompatActivity {
 
     class DoNetworkTask extends AsyncTask<String, Void, Emotion>{
         Activity callingActivity;
+        boolean isEmotionCached;
 
-        public DoNetworkTask(Activity callingActivity) {
+        public DoNetworkTask(Activity callingActivity, boolean isEmotionCached) {
             this.callingActivity = callingActivity;
+            this.isEmotionCached = isEmotionCached;
         }
 
         @Override
@@ -165,7 +189,31 @@ public class WriteNotesActivity extends AppCompatActivity {
             //do network api task here
             // get emotions of picture from api
             System.out.println("exiting second async task background");
-            return new ImageProcessor().processEmotions(strings[0]);
+            Emotion emotion= null;
+            //if emotion is not cached, do network task else get emotions from database
+            if(!isEmotionCached){
+                emotion = new ImageProcessor().processEmotions(strings[0]);
+                boolean isSaved = emotion.save(getApplicationContext());
+            }else {
+                String sql = "select anger,contempt,disgust,fear,happiness," +
+                        "neutral,sadness,surprise,date,fileName from emotion where fileName=" + "'" + strings[0]  + "'";
+                Cursor cursor = Emotion.executeRawQuery(getApplicationContext(), sql);
+                if (cursor.moveToFirst()) {
+                    emotion = new Emotion();
+                    emotion.anger = cursor.getFloat(0);
+                    emotion.contempt = cursor.getFloat(1);
+                    emotion.disgust = cursor.getFloat(2);
+                    emotion.fear = cursor.getFloat(3);
+                    emotion.happiness = cursor.getFloat(4);
+                    emotion.neutral = cursor.getFloat(5);
+                    emotion.sadness = cursor.getFloat(6);
+                    emotion.surprise = cursor.getFloat(7);
+                    emotion.date = cursor.getString(8);
+                    emotion.fileName = cursor.getString(9);
+                }
+
+            }
+            return emotion;
         }
 
         protected void onPostExecute(Emotion emotion) {
@@ -229,7 +277,7 @@ public class WriteNotesActivity extends AppCompatActivity {
                 }
 
                 //Save emotion to database
-                emotion.save(getApplicationContext());
+//                emotion.save(getApplicationContext());
             }
             else {
                 createMessage("system", "Diary: I can't seem to find any emotions right now, you can still write to me :)");
