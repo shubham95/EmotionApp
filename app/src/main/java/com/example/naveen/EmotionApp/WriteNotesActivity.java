@@ -48,7 +48,7 @@ public class WriteNotesActivity extends AppCompatActivity {
         if(requestCode == MyCamera.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             //new ImageLoader(null, this).execute(capturedImageFilePath);
             //new DoNetworkTask(this).execute(capturedImageFilePath);
-            createMessage("system", "Diary: Would you like to tell me something about today ?");
+            createMessage("system", "Diary: Hi, How are you today ?");
             new ImageLoader(null, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, capturedImageFilePath);
             new DoNetworkTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, capturedImageFilePath);
         }
@@ -219,10 +219,10 @@ public class WriteNotesActivity extends AppCompatActivity {
                         e = "You look sad, what happened ?";
                     }
                     else if (max == 3) {
-                        e = "Not feeling much ?";
+                        e = "Are you tired today ?";
                     }
                     else {
-                        e = "Conflicting feelings ?";
+                        e = "Mixed feelings ?";
                     }
 
                     createMessage("system", "Diary: " + e);
