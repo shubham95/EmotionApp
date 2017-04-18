@@ -51,9 +51,17 @@ public class WriteNotesActivity extends AppCompatActivity {
         );
 
         cursor.moveToPosition((int)id);
-        String filePath = cursor.getString(2);
-        new ImageLoader(null, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,filePath);
-        new DoNetworkTask(this,true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,filePath);
+        capturedImageFilePath = cursor.getString(2);
+
+        createMessage("system", "Diary: Would you like to tell me something about today ?");
+        new ImageLoader(null, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,capturedImageFilePath);
+        new DoNetworkTask(this,true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,capturedImageFilePath);
+
+        //get the db saved msgs and show it dynamically
+        Cursor cursorMsgs = UserMsg.executeRawSql(getApplicationContext(),"Select msg from UserPostMsg where fileName='" + capturedImageFilePath + "' order by postNo asc");
+        while (cursorMsgs.moveToNext()){
+            createMessage("user","me: " + cursorMsgs.getString(0));
+        }
     }
     private boolean isActivityStratedOnClickingListItem(Intent intent){
         if(intent.hasExtra("id"))
@@ -121,6 +129,10 @@ public class WriteNotesActivity extends AppCompatActivity {
         String message = messageText.getText().toString();
         if ( message != null && !message.isEmpty() ) {
             createMessage("user", "Me: " + message);
+
+//            TestFunctionality.testUserPostMsgTable(getApplicationContext(),capturedImageFilePath,message);
+            //to save the user msg to database
+            UserMsg.InserMsg(getApplicationContext(),capturedImageFilePath, message);
             messageText.setText("");
         }
         Log.d("TAG", "onClickButton: After Click");
