@@ -52,6 +52,24 @@
                 <!--android:layout_height="wrap_content" />-->
 
         <!--</LinearLayout>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:id="@+id/progressBarView"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detecting Emotions...."
+                android:textColor="@color/colorAccent"
+                android:textSize="15dp"/>
+        </LinearLayout>
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +77,8 @@
             android:layout_alignBottom="@id/imageView"
             android:columnCount="2"
             android:rowCount="3"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:visibility="gone">
 
             <TextView
                 android:padding="2dp"
