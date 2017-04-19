@@ -231,7 +231,7 @@ public class WriteNotesActivity extends AppCompatActivity {
 
             GridLayout progressBars = (GridLayout)findViewById(R.id.progressBars);
             progressBars.setVisibility(View.VISIBLE);
-            createMessage("system", "Diary: Would you like to tell me something about today ?");
+            //createMessage("system", "Diary: Would you like to tell me something about today ?");
             System.out.println("in second async task post");
 
             if (emotion != null) {
@@ -272,7 +272,7 @@ public class WriteNotesActivity extends AppCompatActivity {
                 progressAnimator.start();
 
                 // Create Message
-                if(systemMessageCount == 2) {
+                //if(systemMessageCount == 2) {
                     int max = maxOfThree(firstCategory, secondCategory, thirdCategory);
                     String e;
                     if (max == 1) {
@@ -282,14 +282,14 @@ public class WriteNotesActivity extends AppCompatActivity {
                         e = "You look sad, what happened ?";
                     }
                     else if (max == 3) {
-                        e = "Are you tired today ?";
+                        e = "You seem a little tired today, care to share ?";
                     }
                     else {
                         e = "Mixed feelings ?";
                     }
 
                     createMessage("system", "Diary: " + e);
-                }
+                //}
 
                 //Save emotion to database
 //                emotion.save(getApplicationContext());
