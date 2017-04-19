@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -53,15 +54,11 @@ public class WriteNotesActivity extends AppCompatActivity {
         cursor.moveToPosition((int)id);
         capturedImageFilePath = cursor.getString(2);
 
-        createMessage("system", "Diary: Would you like to tell me something about today ?");
+        //createMessage("system", "Diary: Would you like to tell me something about today ?");
         new ImageLoader(null, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,capturedImageFilePath);
         new DoNetworkTask(this,true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,capturedImageFilePath);
 
-        //get the db saved msgs and show it dynamically
-        Cursor cursorMsgs = UserMsg.executeRawSql(getApplicationContext(),"Select msg from UserPostMsg where fileName='" + capturedImageFilePath + "' order by postNo asc");
-        while (cursorMsgs.moveToNext()){
-            createMessage("user","me: " + cursorMsgs.getString(0));
-        }
+
     }
     private boolean isActivityStratedOnClickingListItem(Intent intent){
         if(intent.hasExtra("id"))
@@ -77,7 +74,7 @@ public class WriteNotesActivity extends AppCompatActivity {
         if(requestCode == MyCamera.REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             //new ImageLoader(null, this).execute(capturedImageFilePath);
             //new DoNetworkTask(this).execute(capturedImageFilePath);
-            createMessage("system", "Diary: Hi, How are you today ?");
+            //createMessage("system", "Diary: Would you like to tell me something about today ?");
             new ImageLoader(null, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, capturedImageFilePath);
             new DoNetworkTask(this, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, capturedImageFilePath);
         }
@@ -229,6 +226,12 @@ public class WriteNotesActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(Emotion emotion) {
+            LinearLayout progressBarViewLayout = (LinearLayout)findViewById(R.id.progressBarView);
+            progressBarViewLayout.setVisibility(View.GONE);
+
+            GridLayout progressBars = (GridLayout)findViewById(R.id.progressBars);
+            progressBars.setVisibility(View.VISIBLE);
+            createMessage("system", "Diary: Would you like to tell me something about today ?");
             System.out.println("in second async task post");
 
             if (emotion != null) {
@@ -290,6 +293,14 @@ public class WriteNotesActivity extends AppCompatActivity {
 
                 //Save emotion to database
 //                emotion.save(getApplicationContext());
+
+                if(isEmotionCached){
+                    //get the db saved msgs and show it dynamically
+                    Cursor cursorMsgs = UserMsg.executeRawSql(getApplicationContext(),"Select msg from UserPostMsg where fileName='" + capturedImageFilePath + "' order by postNo asc");
+                    while (cursorMsgs.moveToNext()){
+                        createMessage("user","me: " + cursorMsgs.getString(0));
+                    }
+                }
             }
             else {
                 createMessage("system", "Diary: I can't seem to find any emotions right now, you can still write to me :)");
