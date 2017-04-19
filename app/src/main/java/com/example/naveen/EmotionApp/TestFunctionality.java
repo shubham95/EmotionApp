@@ -2,13 +2,10 @@ package com.example.naveen.EmotionApp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 
 import com.jjoe64.graphview.GraphView;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,5 +58,20 @@ public class TestFunctionality {
 ////        calendar.add(Calendar.DATE, 1);
 ////        Date d3 = calendar.getTime();
 
+    }
+
+    public static void testUserPostMsgTable(Context context, String fileName, String msg){
+        UserMsg.InserMsg(context,fileName,msg);
+
+
+        String sql = "select fileName,postNo,msg from UserPostMsg order by fileName asc, postNo asc";
+        Cursor cursor = UserMsg.executeRawSql(context,sql);
+        while (cursor.moveToNext()){
+            String file = cursor.getString(0);
+            int postNo = cursor.getInt(1);
+            String msgdb = cursor.getString(2);
+            String result = file.substring(file.lastIndexOf("/")) +"," + postNo+ "," + msgdb ;
+            System.out.println(result);
+         }
     }
 }
