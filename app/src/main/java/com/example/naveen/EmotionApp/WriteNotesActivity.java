@@ -111,8 +111,11 @@ public class WriteNotesActivity extends AppCompatActivity {
         try {
             nestedScrollView.post(new Runnable() {
                 @Override
+
                 public void run() {
-                    nestedScrollView.fullScroll(nestedScrollView.FOCUS_DOWN);
+
+                    nestedScrollView.scrollTo(0, nestedScrollView.getBottom());
+
                 }
             });
         }catch (Exception e){
