@@ -50,12 +50,12 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:id="@+id/newEmotionButton"
         android:layout_gravity="end|bottom"
         android:layout_margin="5dp"
-        android:text="Create Emotions"
-        android:background="@color/colorAccent"
+        android:text="Create Note"
+        android:background="@drawable/create_emotion_shape"
         android:textColor="@color/green"/>
 
 </android.support.design.widget.CoordinatorLayout>
