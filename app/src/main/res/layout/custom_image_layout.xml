@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:padding="3dp"
-    android:background="@color/listItemColor">
+    android:padding="0dp"
+    android:background="@drawable/shadow_border">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height= "170dp"
         android:id="@+id/imageViewHome"
         android:scaleType="centerCrop"
-        android:layout_margin="3dp"
+        android:layout_margin="0dp"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textViewDate"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
         android:layout_below="@id/imageViewHome"
         android:text="Date"
         android:layout_alignParentLeft="true"/>
