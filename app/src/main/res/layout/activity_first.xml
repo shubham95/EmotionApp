@@ -38,14 +38,24 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end|bottom"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--app:elevation="10dp"-->
+        <!--app:fabSize="normal"-->
+        <!--app:srcCompat="@android:drawable/ic_input_add" />-->
+
+    <Button
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/newEmotionButton"
         android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        app:elevation="10dp"
-        app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        android:layout_margin="5dp"
+        android:text="Create Emotions"
+        android:background="@color/colorAccent"
+        android:textColor="@color/green"/>
 
 </android.support.design.widget.CoordinatorLayout>
