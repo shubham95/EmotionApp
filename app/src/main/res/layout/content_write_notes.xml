@@ -70,14 +70,16 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="15dp"/>
         </LinearLayout>
+
         <GridLayout
+            android:id="@+id/progressBars"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBars"
             android:layout_alignBottom="@id/imageView"
+            android:background="@android:color/background_light"
             android:columnCount="2"
-            android:rowCount="3"
             android:padding="5dp"
+            android:rowCount="3"
             android:visibility="gone">
 
             <TextView
