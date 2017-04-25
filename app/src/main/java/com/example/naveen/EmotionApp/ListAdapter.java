@@ -1,22 +1,16 @@
 package com.example.naveen.EmotionApp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by Naveen on 4/15/2017.
@@ -29,7 +23,8 @@ public class ListAdapter extends BaseAdapter {
 
     static class ViewHolder{
         public ImageView imageView;
-        public TextView textView;
+        public TextView textViewDate;
+        public TextView textViewTime;
     }
 
     public ListAdapter(Context context, Cursor data){
@@ -59,15 +54,19 @@ public class ListAdapter extends BaseAdapter {
             rowView = inflater.inflate(R.layout.custom_image_layout, null);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.imageView = (ImageView)rowView.findViewById(R.id.imageViewHome);
-            viewHolder.textView = (TextView)rowView.findViewById(R.id.textViewDate);
+            viewHolder.textViewDate = (TextView)rowView.findViewById(R.id.textViewDate);
+            viewHolder.textViewTime = (TextView)rowView.findViewById(R.id.textTime);
 
             rowView.setTag(viewHolder);
         }
 
         ViewHolder viewHolder = (ViewHolder)rowView.getTag();
         dataCursor.moveToPosition(position);
-        viewHolder.textView.setText(dataCursor.getString(1));
-        new ListImageLoader(viewHolder.imageView).execute(dataCursor.getString(2));
+        String dateString = dataCursor.getString(1);
+        String imagePath = dataCursor.getString(2);
+        viewHolder.textViewDate.setText(Helper.formatDate("d MMM, ''yy",dateString));
+        viewHolder.textViewTime.setText(Helper.formatTime("K:mm:ss aaa", dateString));
+        new ListImageLoader(viewHolder.imageView).execute(imagePath);
 
         return rowView;
     }

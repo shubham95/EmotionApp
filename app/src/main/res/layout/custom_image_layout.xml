@@ -22,4 +22,14 @@
         android:text="Date"
         android:layout_alignParentLeft="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textTime"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:layout_below="@id/imageViewHome"
+        android:text="Time"
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>
