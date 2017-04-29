@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">NewEmotionApp</string>
+    <string name="app_name">Reflection</string>
     <string name="action_settings">Settings</string>
     <string name="captureButton">Capture</string>
-    <string name="title_activity_first">FirstActivity</string>
+    <string name="title_activity_first">Reflection</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_write_notes">WriteNotes</string>
     <string name="large_text">
