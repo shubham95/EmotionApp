@@ -139,13 +139,7 @@ public class WriteNotesActivity extends AppCompatActivity {
     }
 
     protected int maxOfThree(float x, float y, float z) {
-        if ( x > y && x > z )
-            return 1;
-        else if ( y > x && y > z )
-            return 2;
-        else if ( z > x && z > y )
-            return 3;
-        else
+       
             return 0;
     }
 
