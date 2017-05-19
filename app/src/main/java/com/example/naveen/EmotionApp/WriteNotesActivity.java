@@ -282,7 +282,7 @@ public class WriteNotesActivity extends AppCompatActivity {
                         e = "You seem a little tired today, care to share ?";
                     }
                     else {
-                        e = "Mixed feelings ?";
+                        //e = "Mixed feelings ?";
                     }
 
                     createMessage("system", "Diary: " + e);
